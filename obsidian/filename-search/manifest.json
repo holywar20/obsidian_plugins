@@ -1,0 +1,9 @@
+{
+	"id": "filename-search",
+	"name": "Filename Search",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Search the vault by filename from a dedicated sidebar panel, scoped to a configurable list of file types.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": false
+}

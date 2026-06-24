@@ -1,0 +1,124 @@
+.favorites-panel {
+	border-top: 1px solid rgba(128, 128, 128, 0.4);
+	padding: 4px 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.favorites-empty {
+	padding: 8px 12px;
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	font-style: italic;
+}
+
+.favorites-scroll {
+	flex: 1;
+}
+
+.favorites-scroll--overflow {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.favorites-item {
+	display: flex;
+	align-items: center;
+	padding: 2px 8px;
+	gap: 4px;
+	cursor: pointer;
+	border-radius: var(--radius-s);
+}
+
+/* JS stripes only items within a folder; the counter resets per folder. */
+.favorites-row--stripe {
+	background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* --interactive-hover is Obsidian's explicit hover color for interactive elements. */
+.favorites-item:hover {
+	background-color: var(--interactive-hover);
+}
+
+.favorites-item-icon {
+	flex-shrink: 0;
+	font-size: 12px;
+}
+
+.favorites-item-name {
+	font-size: var(--font-ui-small);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.favorites-folder {
+	margin-top: 4px;
+}
+
+.favorites-folder-header {
+	display: flex;
+	align-items: center;
+	padding: 2px 8px;
+	gap: 4px;
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+	cursor: pointer;
+	border-radius: var(--radius-s);
+}
+
+.favorites-folder-caret {
+	flex-shrink: 0;
+	font-size: 10px;
+	line-height: 1;
+	color: var(--text-faint);
+}
+
+.favorites-folder-header:hover {
+	background-color: var(--interactive-hover);
+}
+
+.favorites-folder-icon {
+	flex-shrink: 0;
+	font-size: 12px;
+}
+
+.favorites-folder-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Indent folder children (caret width + ~2 spaces) */
+.favorites-folder .favorites-item {
+	padding-left: 28px;
+}
+
+/* ---- Modals ---- */
+
+.favorites-modal-title {
+	margin-bottom: 8px;
+}
+
+.favorites-modal-hint {
+	font-size: var(--font-ui-small);
+	color: var(--text-muted);
+	margin-bottom: 8px;
+}
+
+.favorites-modal-input {
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+.favorites-modal-select {
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+.favorites-modal-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+}

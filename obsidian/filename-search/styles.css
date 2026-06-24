@@ -1,0 +1,134 @@
+.filename-search-panel {
+	border-top: 1px solid rgba(128, 128, 128, 0.4);
+	padding: 4px 0;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.filename-search-inputwrap {
+	padding: 4px 8px;
+}
+
+.filename-search-input {
+	width: 100%;
+}
+
+.filename-search-results {
+	flex: 1;
+	overflow-y: auto;
+	margin-top: 4px;
+}
+
+.filename-search-empty,
+.filename-search-more {
+	padding: 8px 12px;
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	font-style: italic;
+}
+
+.filename-search-item {
+	padding: 3px 12px;
+	cursor: pointer;
+	border-radius: var(--radius-s);
+}
+
+/* --interactive-hover is Obsidian's explicit hover color for interactive elements. */
+.filename-search-item:hover {
+	background-color: var(--interactive-hover);
+}
+
+.filename-search-item-name {
+	font-size: var(--font-ui-small);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.filename-search-item-path {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ---- type cards (collapsible strip) ---- */
+
+.filename-search-cards {
+	padding: 4px 8px 0;
+}
+
+.filename-search-cards-header {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 0;
+	cursor: pointer;
+	user-select: none;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.filename-search-cards-caret {
+	display: inline-block;
+	transition: transform 100ms ease;
+}
+
+.filename-search-cards-header.is-collapsed .filename-search-cards-caret {
+	transform: rotate(-90deg);
+}
+
+.filename-search-cardgrid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 4px 0 6px;
+}
+
+/* State is carried by colour: muted outline = off, accent fill = in scope,
+   green fill = an orphan we unlocked. The tooltip carries the words. */
+.filename-search-chip {
+	padding: 1px 8px;
+	border-radius: 10px;
+	border: 1px solid var(--background-modifier-border);
+	background: transparent;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	cursor: pointer;
+	user-select: none;
+}
+
+.filename-search-chip:hover {
+	border-color: var(--interactive-accent);
+}
+
+.filename-search-chip.is-on {
+	background: var(--interactive-accent);
+	border-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.filename-search-chip.is-ours {
+	background: var(--color-green, var(--interactive-accent));
+	border-color: var(--color-green, var(--interactive-accent));
+}
+
+/* ---- orphan fallback view ---- */
+
+.filename-search-raw-view {
+	overflow: auto;
+}
+
+.filename-search-raw {
+	margin: 0;
+	padding: 12px;
+	white-space: pre-wrap;
+	word-break: break-word;
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-small);
+}

@@ -1,0 +1,9 @@
+{
+	"id": "obsidian-favorites",
+	"name": "Favorites",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Pin favorite files to a dedicated panel in the sidebar.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": false
+}

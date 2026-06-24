@@ -1,0 +1,9 @@
+{
+	"id": "vue-viewer",
+	"name": "Vue Viewer",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Read-only syntax-highlighted viewer for .vue single-file components.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": false
+}

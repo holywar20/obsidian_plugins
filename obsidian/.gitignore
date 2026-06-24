@@ -1,0 +1,21 @@
+# Dependencies
+**/node_modules/
+
+# Build output (each plugin builds to main.js in its own root)
+**/main.js
+**/*.js.map
+
+# TypeScript
+**/tsconfig.tsbuildinfo
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# npm/pnpm lock files from inner packages (root-level lock files are kept)
+# Uncomment if you don't want per-plugin lock files committed:
+# **/package-lock.json

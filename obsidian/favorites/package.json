@@ -1,0 +1,16 @@
+{
+	"name": "obsidian-favorites",
+	"version": "1.0.0",
+	"description": "Pin favorite files to a dedicated panel in the sidebar.",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"esbuild": "^0.21.0",
+		"obsidian": "latest",
+		"typescript": "^5.4.0"
+	}
+}

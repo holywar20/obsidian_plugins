@@ -1,0 +1,9 @@
+{
+	"id": "dev-utilities",
+	"name": "Dev Utilities",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Sidebar panel for launching local utility scripts.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": true
+}

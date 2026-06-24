@@ -1,0 +1,5 @@
+# dependencies — reinstalled per machine via `deploy-plugins`, never committed
+node_modules/
+
+# build metadata
+*.tsbuildinfo
