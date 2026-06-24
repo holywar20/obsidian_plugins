@@ -1,0 +1,9 @@
+{
+	"id": "embedded-terminal",
+	"name": "Embedded Terminal",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "PowerShell and Git Bash terminals embedded as tabs, with configurable shell paths and PATH additions. No native dependencies.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": true
+}

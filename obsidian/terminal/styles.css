@@ -1,0 +1,19 @@
+/* Embedded Terminal — view chrome. xterm's own CSS is concatenated ahead of this at build. */
+
+.embedded-terminal-view {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background: var( --background-primary );
+	padding: 6px 8px;
+}
+
+.embedded-terminal-host {
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+/* Let the terminal background show the Obsidian view background through (allowTransparency). */
+.embedded-terminal-host .xterm .xterm-viewport {
+	background: transparent !important;
+}
