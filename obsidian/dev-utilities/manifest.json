@@ -1,6 +1,6 @@
 {
 	"id": "dev-utilities",
-	"name": "Dev Utilities",
+	"name": "Command Deck",
 	"version": "1.0.0",
 	"minAppVersion": "1.4.0",
 	"description": "Sidebar panel for launching local utility scripts.",

@@ -6,8 +6,7 @@ import type DevUtilitiesPlugin from './DevUtilitiesPlugin'
 
 export const VIEW_TYPE_DEV_UTILITIES = 'dev-utilities-view'
 
-const UTILITIES_SUBPATH = '_Claude/dev-utilities'
-const COMMANDS_FILE      = 'commands.json'
+const COMMANDS_FILE = 'commands.json'
 
 // One button on the deck. A single script may appear under many commands (different args) — e.g.
 // git-ops.js surfaces as Pull / Push / Status. `group` clusters buttons under a header.
@@ -28,7 +27,7 @@ export class DevUtilitiesView extends ItemView {
 	}
 
 	getViewType() { return VIEW_TYPE_DEV_UTILITIES }
-	getDisplayText() { return 'Dev Utilities' }
+	getDisplayText() { return 'Command Deck' }
 	getIcon() { return 'terminal' }
 
 	async onOpen(): Promise<void> {
@@ -42,17 +41,18 @@ export class DevUtilitiesView extends ItemView {
 
 	private _dir(): string {
 		const basePath = ( this.app.vault.adapter as any ).basePath as string
-		return join( basePath, UTILITIES_SUBPATH )
+		return join( basePath, this._plugin.settings.deckPath )
 	}
 
 	refresh(): void {
 		this.contentEl.empty()
 		this._renderHeader()
 
+		const deckPath = this._plugin.settings.deckPath
 		const commands = this._load( join( this._dir(), COMMANDS_FILE ) )
 
 		if ( commands === null ) {
-			this.contentEl.createEl( 'div', { cls: 'dev-utilities-empty', text: `No ${ COMMANDS_FILE } in ${ UTILITIES_SUBPATH }` } )
+			this.contentEl.createEl( 'div', { cls: 'dev-utilities-empty', text: `No ${ COMMANDS_FILE } in ${ deckPath }` } )
 			return
 		}
 		if ( commands.length === 0 ) {
@@ -75,7 +75,7 @@ export class DevUtilitiesView extends ItemView {
 				args:  c.args  ?? '',
 			} ) )
 		} catch {
-			new Notice( `Dev Utilities: ${ COMMANDS_FILE } is invalid JSON` )
+			new Notice( `Command Deck: ${ COMMANDS_FILE } is invalid JSON` )
 			return []
 		}
 	}

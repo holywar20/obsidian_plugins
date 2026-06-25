@@ -1,23 +1,39 @@
-import { Menu, Notice, Plugin, TFile } from 'obsidian';
+import { App, Menu, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import { join } from 'path';
 import { ExternalLinkModal } from './ExternalLinkModal';
 import { ExternalLinksManager } from './ExternalLinksManager';
 import { FavoritesStore } from './FavoritesStore';
 import { FavoritesView, VIEW_TYPE_FAVORITES } from './FavoritesView';
 import { FolderNameModal } from './FolderNameModal';
 
+export interface FavoritesSettings {
+	deckPath: string;
+}
+
+const DEFAULT_SETTINGS: FavoritesSettings = {
+	deckPath: 'dev-utilities',
+};
+
+const FAVORITES_FILE = 'favorites.json';
+
 export default class FavoritesPlugin extends Plugin {
 	store: FavoritesStore;
 	manager: ExternalLinksManager;
+	settings: FavoritesSettings = { ...DEFAULT_SETTINGS };
 
 	async onload() {
-		this.store = new FavoritesStore( this );
+		this.settings = Object.assign( {}, DEFAULT_SETTINGS, await this.loadData() );
+
+		this.store = new FavoritesStore();
 		this.manager = new ExternalLinksManager( this );
-		await this.store.load();
+		this.store.load( this._favoritesPath() );
 
 		this.registerView(
 			VIEW_TYPE_FAVORITES,
 			( leaf ) => new FavoritesView( leaf, this ),
 		);
+
+		this.addSettingTab( new FavoritesSettingsTab( this.app, this ) );
 
 		this.addCommand( {
 			id: 'add-external-favorite',
@@ -32,7 +48,7 @@ export default class FavoritesPlugin extends Plugin {
 							this.store.addToRoot( vaultPath );
 						}
 						this.store.addExternal( vaultPath, absolutePath );
-						await this.store.save();
+						this.store.save();
 						this.refreshView();
 						new Notice( 'External file added to Favorites.' );
 					} catch ( e ) {
@@ -79,8 +95,18 @@ export default class FavoritesPlugin extends Plugin {
 			this.manager.removeLink( path );
 		}
 		this.store.purge( path );
-		await this.store.save();
+		this.store.save();
 		this.refreshView();
+	}
+
+	async saveSettings() {
+		await this.saveData( this.settings );
+	}
+
+	/** Absolute path to the favorites JSON file. */
+	_favoritesPath(): string {
+		const basePath = ( this.app.vault.adapter as any ).basePath as string;
+		return join( basePath, this.settings.deckPath, FAVORITES_FILE );
 	}
 
 	private _onFileMenu( menu: Menu, file: unknown ) {
@@ -101,7 +127,7 @@ export default class FavoritesPlugin extends Plugin {
 			submenu.addItem( ( sub ) => {
 				sub.setTitle( 'No folder' ).setIcon( 'home' ).onClick( async () => {
 					this.store.addToRoot( file.path );
-					await this.store.save();
+					this.store.save();
 					this.refreshView();
 				} );
 			} );
@@ -111,7 +137,7 @@ export default class FavoritesPlugin extends Plugin {
 				submenu.addItem( ( sub ) => {
 					sub.setTitle( name ).setIcon( 'folder' ).onClick( async () => {
 						this.store.addToFolder( file.path, name );
-						await this.store.save();
+						this.store.save();
 						this.refreshView();
 					} );
 				} );
@@ -142,7 +168,7 @@ export default class FavoritesPlugin extends Plugin {
 				submenu.addItem( ( sub ) => {
 					sub.setTitle( 'No folder' ).setIcon( 'home' ).onClick( async () => {
 						this.store.moveToRoot( file.path );
-						await this.store.save();
+						this.store.save();
 						this.refreshView();
 					} );
 				} );
@@ -154,7 +180,7 @@ export default class FavoritesPlugin extends Plugin {
 				submenu.addItem( ( sub ) => {
 					sub.setTitle( name ).setIcon( 'folder' ).onClick( async () => {
 						this.store.moveToFolder( file.path, name );
-						await this.store.save();
+						this.store.save();
 						this.refreshView();
 					} );
 				} );
@@ -184,7 +210,7 @@ export default class FavoritesPlugin extends Plugin {
 		if ( !this.store.isAlreadyFavorite( file.path ) ) return;
 		// Symlink was already removed by Obsidian/OS — just clean the store record.
 		this.store.purge( file.path );
-		await this.store.save();
+		this.store.save();
 		this.refreshView();
 	}
 
@@ -194,5 +220,33 @@ export default class FavoritesPlugin extends Plugin {
 		const leaf = workspace.getLeftLeaf( true );
 		if ( !leaf ) return;
 		await leaf.setViewState( { type: VIEW_TYPE_FAVORITES, active: false } );
+	}
+}
+
+class FavoritesSettingsTab extends PluginSettingTab {
+	private _plugin: FavoritesPlugin;
+
+	constructor( app: App, plugin: FavoritesPlugin ) {
+		super( app, plugin );
+		this._plugin = plugin;
+	}
+
+	display(): void {
+		const { containerEl } = this;
+		containerEl.empty();
+
+		new Setting( containerEl )
+			.setName( 'Deck folder' )
+			.setDesc( 'Path to the shared dev-utilities folder, relative to the vault root. Favorites are stored as favorites.json inside it.' )
+			.addText( text => text
+				.setPlaceholder( 'dev-utilities' )
+				.setValue( this._plugin.settings.deckPath )
+				.onChange( async ( value ) => {
+					this._plugin.settings.deckPath = value.trim() || DEFAULT_SETTINGS.deckPath;
+					await this._plugin.saveSettings();
+					this._plugin.store.load( this._plugin._favoritesPath() );
+					this._plugin.refreshView();
+				} ),
+			);
 	}
 }

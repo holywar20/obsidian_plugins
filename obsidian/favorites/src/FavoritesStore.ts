@@ -1,4 +1,5 @@
-import type FavoritesPlugin from './FavoritesPlugin';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
+import { dirname } from 'path'
 
 export interface FolderEntry {
 	name: string;
@@ -15,22 +16,22 @@ export interface StoreData {
 
 export class FavoritesStore {
 	private _data: StoreData = { root: [], folders: [], externals: {} };
-	private _plugin: FavoritesPlugin;
+	private _filePath: string = '';
 
-	constructor( plugin: FavoritesPlugin ) {
-		this._plugin = plugin;
-	}
-
-	async load() {
-		const saved = await this._plugin.loadData();
-		if ( saved ) {
-			this._data = saved;
+	load( filePath: string ) {
+		this._filePath = filePath;
+		if ( !existsSync( filePath ) ) return;
+		try {
+			const raw = JSON.parse( readFileSync( filePath, 'utf8' ) ) as StoreData;
+			this._data = raw;
 			if ( !this._data.externals ) this._data.externals = {};
-		}
+		} catch { /* corrupt file — start fresh */ }
 	}
 
-	async save() {
-		await this._plugin.saveData( this._data );
+	save() {
+		if ( !this._filePath ) return;
+		mkdirSync( dirname( this._filePath ), { recursive: true } );
+		writeFileSync( this._filePath, JSON.stringify( this._data, null, 2 ) + '\n' );
 	}
 
 	get data() { return this._data; }
