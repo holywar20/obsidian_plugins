@@ -1,0 +1,9 @@
+{
+	"id": "starmind-code",
+	"name": "Starmind Code",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Read-only syntax-highlighted code viewer with fold gutter. Supports JS, TS, HTML, CSS, Python, and Vue.",
+	"author": "Bryan Winter",
+	"isDesktopOnly": false
+}

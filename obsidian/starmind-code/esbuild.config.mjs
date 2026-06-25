@@ -3,7 +3,7 @@ import process from 'process';
 import { copyFileSync, mkdirSync } from 'fs';
 
 const prod = process.argv[ 2 ] === 'production';
-const OUT  = '../../../.obsidian/plugins/vue-viewer';
+const OUT  = '../../../.obsidian/plugins/starmind-code';
 
 const copyPlugin = {
 	name: 'copy-assets',
@@ -17,7 +17,7 @@ const copyPlugin = {
 };
 
 const context = await esbuild.context( {
-	entryPoints: [ 'src/VueViewerPlugin.ts' ],
+	entryPoints: [ 'src/StarMindCodePlugin.ts' ],
 	bundle: true,
 	external: [
 		'obsidian', 'electron',
