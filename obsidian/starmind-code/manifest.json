@@ -3,7 +3,7 @@
 	"name": "Starmind Code",
 	"version": "1.0.0",
 	"minAppVersion": "1.4.0",
-	"description": "Read-only syntax-highlighted code viewer with fold gutter. Supports JS, TS, HTML, CSS, Python, and Vue.",
+	"description": "Syntax-highlighted code editor with fold gutter and configurable indentation. Supports JS, TS, JSON, HTML, CSS, Python, and Vue, each toggleable in settings; editing can be switched to read-only.",
 	"author": "Bryan Winter",
 	"isDesktopOnly": false
 }

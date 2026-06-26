@@ -15,18 +15,25 @@
 	overflow: auto;
 }
 
-/* ── Fold gutter — chevrons reveal on gutter hover ──────────────────────── */
+/* ── Gutters — give the line numbers and fold column room to breathe ────── */
+
+.starmind-code-view .cm-lineNumbers .cm-gutterElement {
+	padding: 0 8px 0 12px;
+	min-width: 2.5em;
+}
+
+.starmind-code-view .cm-foldGutter .cm-gutterElement {
+	padding: 0 6px;
+	min-width: 1.4em;
+	text-align: center;
+}
+
+/* ── Fold gutter — chevrons always visible ──────────────────────────────── */
 
 .starmind-code-view .cm-foldGutter .sc-fold-marker {
 	cursor: pointer;
-	opacity: 0;
-	transition: opacity 0.15s;
-	font-size: 110%;
-}
-
-.starmind-code-view .cm-gutters:hover .sc-fold-marker,
-.starmind-code-view .sc-fold-marker.is-closed {
 	opacity: 1;
+	font-size: 110%;
 }
 
 .starmind-code-view .cm-foldPlaceholder {

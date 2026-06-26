@@ -1,19 +1,28 @@
 import type { WorkspaceLeaf } from 'obsidian'
 import { TextFileView } from 'obsidian'
 import { EditorView, keymap, lineNumbers } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
-import { codeFolding, foldGutter, foldKeymap } from '@codemirror/language'
+import { EditorState, Compartment } from '@codemirror/state'
+import type { Extension } from '@codemirror/state'
+import { codeFolding, foldGutter, foldKeymap, indentUnit } from '@codemirror/language'
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { LANGUAGES } from './languages'
+import { resolveSupport } from './languages'
+import type StarMindCodePlugin from './StarMindCodePlugin'
 
 export const VIEW_TYPE_CODE = 'starmind-code'
 
 export class CodeView extends TextFileView {
 
 	private _editor: EditorView | null = null
+	private _plugin: StarMindCodePlugin
 
-	constructor( leaf: WorkspaceLeaf ) {
+	// Holds the settings-driven extensions (indent, editability) so they can be
+	// swapped live without rebuilding the whole editor.
+	private _cfg = new Compartment()
+
+	constructor( leaf: WorkspaceLeaf, plugin: StarMindCodePlugin ) {
 		super( leaf )
+		this._plugin = plugin
 		this.contentEl.addClass( 'starmind-code-view' )
 	}
 
@@ -39,6 +48,13 @@ export class CodeView extends TextFileView {
 		this._destroy()
 	}
 
+	// Re-apply the current indent/editability settings to a live editor.
+	applySettings(): void {
+		this._editor?.dispatch( {
+			effects: this._cfg.reconfigure( this._settingsExtensions() ),
+		} )
+	}
+
 	// ── private ─────────────────────────────────────────────────────────────
 
 	private _mount( content: string ): void {
@@ -47,8 +63,8 @@ export class CodeView extends TextFileView {
 		this.contentEl.addClass( 'starmind-code-view' )
 
 		const ext     = this.file?.extension ?? ''
-		const langFn  = LANGUAGES[ ext ]
-		const langExt = langFn ? [ langFn() ] : []
+		const support = resolveSupport( ext )
+		const langExt = support ? [ support ] : []
 
 		const state = EditorState.create( {
 			doc: content,
@@ -58,8 +74,10 @@ export class CodeView extends TextFileView {
 				lineNumbers(),
 				codeFolding( { placeholderText: '⋯' } ),
 				foldGutter( { markerDOM: this._makeFoldMarker } ),
-				keymap.of( foldKeymap ),
-				EditorView.editable.of( false ),
+				history(),
+				keymap.of( [ indentWithTab, ...foldKeymap, ...defaultKeymap, ...historyKeymap ] ),
+				this._cfg.of( this._settingsExtensions() ),
+				EditorView.updateListener.of( ( u ) => { if ( u.docChanged ) this.requestSave() } ),
 			],
 		} )
 
@@ -67,6 +85,19 @@ export class CodeView extends TextFileView {
 			state,
 			parent: this.contentEl,
 		} )
+	}
+
+	// Indent + editability, derived from plugin settings. Lives in a compartment
+	// so a settings change can reconfigure an open editor in place.
+	private _settingsExtensions(): Extension {
+		const s    = this._plugin.settings
+		const unit = s.indentType === 'tabs' ? '\t' : ' '.repeat( s.tabSize )
+		return [
+			EditorState.tabSize.of( s.tabSize ),
+			indentUnit.of( unit ),
+			EditorState.readOnly.of( !s.editable ),
+			EditorView.editable.of( s.editable ),
+		]
 	}
 
 	private _makeFoldMarker( open: boolean ): HTMLElement {

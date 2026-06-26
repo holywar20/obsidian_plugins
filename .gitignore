@@ -1,4 +1,4 @@
-# dependencies — reinstalled per machine via `deploy-plugins`, never committed
+# dependencies — reinstalled per machine via `synchronize-obsidian`, never committed
 node_modules/
 
 # build metadata

@@ -26,6 +26,7 @@ export class TerminalView extends ItemView {
 	private _resizeObserver: ResizeObserver | null = null
 
 	private _input = ''
+	private _cursor = 0
 	private _history: string[] = []
 	private _histIdx = -1
 
@@ -174,13 +175,59 @@ export class TerminalView extends ItemView {
 			case '\x1b[B':
 				this._historyNext()
 				return
+			case '\x1b[C':
+				this._cursorRight()
+				return
+			case '\x1b[D':
+				this._cursorLeft()
+				return
+			case '\x1b[H':
+			case '\x1b[1~':
+				this._cursorHome()
+				return
+			case '\x1b[F':
+			case '\x1b[4~':
+				this._cursorEnd()
+				return
 		}
 
-		// Ignore any other control / escape sequence (arrows left-right, function keys, etc.).
+		// Ignore any other control / escape sequence (function keys, unhandled arrows, etc.).
 		if( data < ' ' || data.charCodeAt( 0 ) === 0x1b ) return
 
-		this._input += data
-		this._term?.write( data )
+		this._insert( data )
+	}
+
+	/**
+	 * Insert text at the cursor. When the cursor sits mid-line we redraw the shifted tail and then
+	 * walk the terminal cursor back over it, so the visible caret lands just after the new text.
+	 */
+	private _insert( str: string ): void {
+		const tail = this._input.slice( this._cursor )
+		this._input = this._input.slice( 0, this._cursor ) + str + tail
+		this._cursor += str.length
+		this._term?.write( str + tail )
+		if( tail.length ) this._term?.write( '\b'.repeat( tail.length ) )
+	}
+
+	private _cursorLeft(): void {
+		if( this._cursor === 0 ) return
+		this._cursor -= 1
+		this._term?.write( '\b' )
+	}
+
+	private _cursorRight(): void {
+		if( this._cursor >= this._input.length ) return
+		// Rewriting the glyph under the caret redraws it unchanged and advances the caret one cell.
+		this._term?.write( this._input[ this._cursor ] )
+		this._cursor += 1
+	}
+
+	private _cursorHome(): void {
+		while( this._cursor > 0 ) this._cursorLeft()
+	}
+
+	private _cursorEnd(): void {
+		while( this._cursor < this._input.length ) this._cursorRight()
 	}
 
 	private _submitLine(): void {
@@ -194,17 +241,24 @@ export class TerminalView extends ItemView {
 		}
 		this._histIdx = this._history.length
 		this._input = ''
+		this._cursor = 0
 	}
 
+	/** Delete the character before the cursor, redrawing the tail shifted one cell left. */
 	private _backspace(): void {
-		if( !this._input ) return
-		this._input = this._input.slice( 0, -1 )
-		this._term?.write( '\b \b' )
+		if( this._cursor === 0 ) return
+		const tail = this._input.slice( this._cursor )
+		this._input = this._input.slice( 0, this._cursor - 1 ) + tail
+		this._cursor -= 1
+		// Step left onto the deleted cell, redraw the tail, blank the now-stale last cell, walk back.
+		this._term?.write( '\b' + tail + ' ' )
+		this._term?.write( '\b'.repeat( tail.length + 1 ) )
 	}
 
 	private _cancelLine(): void {
 		this._term?.write( '^C\r\n' )
 		this._input = ''
+		this._cursor = 0
 		this._histIdx = this._history.length
 	}
 
@@ -231,8 +285,7 @@ export class TerminalView extends ItemView {
 		for( const ch of text.replace( /\r\n/g, '\n' ) ) {
 			if( ch === '\n' ) { this._submitLine(); continue }
 			if( ch < ' ' ) continue
-			this._input += ch
-			this._term?.write( ch )
+			this._insert( ch )
 		}
 	}
 
@@ -262,10 +315,12 @@ export class TerminalView extends ItemView {
 		this._replaceInput( next )
 	}
 
-	/** Erase the visible input line and redraw it with nInput. */
+	/** Erase the visible input line and redraw it with nInput, parking the cursor at its end. */
 	private _replaceInput( nInput: string ): void {
+		this._cursorEnd()
 		for( let i = 0; i < this._input.length; i++ ) this._term?.write( '\b \b' )
 		this._input = nInput
+		this._cursor = nInput.length
 		this._term?.write( nInput )
 	}
 }
