@@ -41,7 +41,14 @@
 	pointer-events: none;
 }
 
-.dev-utilities-refresh {
+.dev-utilities-actions {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	flex-shrink: 0;
+}
+
+.dev-utilities-icon-btn {
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -53,9 +60,49 @@
 	flex-shrink: 0;
 }
 
-.dev-utilities-refresh:hover {
+.dev-utilities-icon-btn:hover {
 	color: var(--text-normal);
 	background: var(--background-modifier-hover);
+}
+
+.dev-utilities-icon-btn.is-active {
+	color: var(--text-accent);
+	background: var(--background-modifier-hover);
+}
+
+.dev-utilities-config {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px;
+	border-bottom: 1px solid var(--background-modifier-border);
+	flex-shrink: 0;
+}
+
+.dev-utilities-config-label {
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--text-faint);
+}
+
+.dev-utilities-config-field {
+	display: flex;
+	gap: 4px;
+}
+
+.dev-utilities-config-input {
+	flex: 1;
+	min-width: 0;
+	font-size: 12px;
+	font-family: var(--font-monospace);
+	padding: 3px 6px;
+}
+
+.dev-utilities-config-save {
+	flex-shrink: 0;
+	font-size: 12px;
+	cursor: pointer;
 }
 
 .dev-utilities-empty {

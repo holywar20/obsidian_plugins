@@ -1,6 +1,6 @@
 import { ItemView, Menu, Notice, WorkspaceLeaf } from 'obsidian'
 import { readFileSync, existsSync } from 'fs'
-import { join, extname } from 'path'
+import { join, extname, isAbsolute } from 'path'
 import { exec } from 'child_process'
 import type DevUtilitiesPlugin from './DevUtilitiesPlugin'
 
@@ -20,6 +20,7 @@ interface Command {
 
 export class DevUtilitiesView extends ItemView {
 	private _plugin: DevUtilitiesPlugin
+	private _configOpen = false
 
 	constructor( leaf: WorkspaceLeaf, plugin: DevUtilitiesPlugin ) {
 		super( leaf )
@@ -39,14 +40,20 @@ export class DevUtilitiesView extends ItemView {
 		this.contentEl.empty()
 	}
 
+	// The deck folder may be given as an absolute path (portable across projects — just paste the
+	// full path) or as a path relative to the vault root. Absolute wins as-is; relative is anchored
+	// to the vault root.
 	private _dir(): string {
+		const deckPath = this._plugin.settings.deckPath
+		if ( isAbsolute( deckPath ) ) return deckPath
 		const basePath = ( this.app.vault.adapter as any ).basePath as string
-		return join( basePath, this._plugin.settings.deckPath )
+		return join( basePath, deckPath )
 	}
 
 	refresh(): void {
 		this.contentEl.empty()
 		this._renderHeader()
+		if ( this._configOpen ) this._renderConfig()
 
 		const deckPath = this._plugin.settings.deckPath
 		const commands = this._load( join( this._dir(), COMMANDS_FILE ) )
@@ -84,9 +91,54 @@ export class DevUtilitiesView extends ItemView {
 		const header = this.contentEl.createEl( 'div', { cls: 'dev-utilities-header' } )
 		header.createEl( 'div', { cls: 'dev-utilities-breadcrumb', text: 'command deck' } )
 
-		const refreshBtn = header.createEl( 'button', { cls: 'dev-utilities-refresh', title: `Reload ${ COMMANDS_FILE }` } )
+		const actions = header.createEl( 'div', { cls: 'dev-utilities-actions' } )
+
+		const configBtn = actions.createEl( 'button', { cls: 'dev-utilities-icon-btn', title: 'Configure deck folder' } )
+		configBtn.setText( '⚙' )
+		configBtn.toggleClass( 'is-active', this._configOpen )
+		configBtn.addEventListener( 'click', () => {
+			this._configOpen = !this._configOpen
+			this.refresh()
+		} )
+
+		const refreshBtn = actions.createEl( 'button', { cls: 'dev-utilities-icon-btn', title: `Reload ${ COMMANDS_FILE }` } )
 		refreshBtn.setText( '↺' )
 		refreshBtn.addEventListener( 'click', () => this.refresh() )
+	}
+
+	// Inline path editor, toggled by the gear. Reads/writes the same setting as the plugin's
+	// settings tab — surfacing it here so a deck can be re-pointed per-project without leaving
+	// the panel. Prefilled with the current path for easy copy-out.
+	private _renderConfig(): void {
+		const row = this.contentEl.createEl( 'div', { cls: 'dev-utilities-config' } )
+		row.createEl( 'label', { cls: 'dev-utilities-config-label', text: 'Deck folder — absolute path, or relative to vault root' } )
+
+		const field = row.createEl( 'div', { cls: 'dev-utilities-config-field' } )
+
+		const input = field.createEl( 'input', { cls: 'dev-utilities-config-input', type: 'text' } )
+		input.value = this._plugin.settings.deckPath
+		input.placeholder = '_Claude/dev-utilities'
+		input.spellcheck = false
+
+		const save = field.createEl( 'button', { cls: 'dev-utilities-config-save', text: 'Save' } )
+
+		const commit = async (): Promise<void> => {
+			const value = input.value.trim()
+			if ( !value ) { new Notice( 'Command Deck: path cannot be empty' ); return }
+			this._plugin.settings.deckPath = value
+			await this._plugin.saveSettings()
+			this._configOpen = false
+			this.refresh()
+		}
+
+		save.addEventListener( 'click', () => { void commit() } )
+		input.addEventListener( 'keydown', ( e ) => {
+			if ( e.key === 'Enter' )  { e.preventDefault(); void commit() }
+			if ( e.key === 'Escape' ) { e.preventDefault(); this._configOpen = false; this.refresh() }
+		} )
+
+		input.focus()
+		input.select()
 	}
 
 	private _renderDeck( commands: Command[] ): void {

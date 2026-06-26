@@ -6,7 +6,7 @@ export interface CommandDeckSettings {
 }
 
 const DEFAULT_SETTINGS: CommandDeckSettings = {
-	deckPath: 'dev-utilities',
+	deckPath: '_Claude/dev-utilities',
 }
 
 export default class DevUtilitiesPlugin extends Plugin {
@@ -75,9 +75,9 @@ class CommandDeckSettingsTab extends PluginSettingTab {
 
 		new Setting( containerEl )
 			.setName( 'Deck folder' )
-			.setDesc( 'Path to the folder containing commands.json, relative to the vault root.' )
+			.setDesc( 'Path to the folder containing commands.json. Absolute, or relative to the vault root. Also editable from the gear button on the deck.' )
 			.addText( text => text
-				.setPlaceholder( 'dev-utilities' )
+				.setPlaceholder( '_Claude/dev-utilities' )
 				.setValue( this._plugin.settings.deckPath )
 				.onChange( async ( value ) => {
 					this._plugin.settings.deckPath = value.trim() || DEFAULT_SETTINGS.deckPath
