@@ -83,7 +83,7 @@
   --h6-color: #5a6175;   /* faint */
 
   /* ── Code syntax ────────────────────────────────────────────────────── */
-  --code-background:  #141823;
+  --code-background:  #07080d;
   --code-normal:      #e6e9f2;
   --code-comment:     #5a6175;
   --code-function:    #38bdf8;   /* know blue */
@@ -204,6 +204,32 @@
 /* ────────────────────────────────────────────────────────────────────────────
    STRUCTURAL — applies in both modes
    ──────────────────────────────────────────────────────────────────────── */
+
+/* ── Code blocks — near-black base regardless of language or view mode ──── */
+
+/* Reading view — fenced blocks */
+.markdown-rendered pre,
+.markdown-preview-view pre {
+  background-color: #07080d !important;
+  border: 1px solid rgba(42, 49, 68, 0.8);
+}
+
+/* Reading view — inline code */
+.markdown-rendered code,
+.markdown-preview-view code {
+  background-color: #07080d;
+}
+
+/* Live editor — code block lines */
+.cm-line.HyperMD-codeblock {
+  background-color: #07080d !important;
+}
+
+/* Live editor — code block fence lines (``` markers) */
+.cm-line.HyperMD-codeblock-begin,
+.cm-line.HyperMD-codeblock-end {
+  background-color: #07080d !important;
+}
 
 /* Active editor line — very subtle ambient glow, space blue wash */
 .cm-active.cm-line {

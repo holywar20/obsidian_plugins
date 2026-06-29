@@ -158,11 +158,13 @@ export class DevUtilitiesView extends ItemView {
 	}
 
 	private _renderButton( grid: HTMLElement, cmd: Command ): void {
-		const card = grid.createEl( 'button', { cls: 'dev-utilities-card', attr: { type: 'button' } } )
-		card.title = `${ cmd.run } ${ cmd.args }`.trim()
+		const cell = grid.createEl( 'div', { cls: 'dev-utilities-cell' } )
 
+		const card = cell.createEl( 'button', { cls: 'dev-utilities-card', attr: { type: 'button' } } )
+		card.title = `${ cmd.run } ${ cmd.args }`.trim()
 		card.createEl( 'div', { cls: 'dev-utilities-card-icon', text: cmd.icon } )
-		card.createEl( 'div', { cls: 'dev-utilities-card-name', text: cmd.label } )
+
+		cell.createEl( 'div', { cls: 'dev-utilities-card-name', text: cmd.label } )
 
 		card.addEventListener( 'click', () => this._launch( cmd ) )
 		card.addEventListener( 'contextmenu', ( e ) => {
