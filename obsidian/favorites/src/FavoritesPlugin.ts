@@ -11,7 +11,7 @@ export interface FavoritesSettings {
 }
 
 const DEFAULT_SETTINGS: FavoritesSettings = {
-	deckPath: 'dev-utilities',
+	deckPath: '_Claude/dev-utilities',
 };
 
 const FAVORITES_FILE = 'favorites.json';

@@ -1,0 +1,457 @@
+/*
+ * Starmind — Obsidian Theme
+ *
+ * Dark: space-black palette sourced directly from
+ *   starmind/src/renderer/src/assets/tokens.css
+ *
+ * Light: minimal stub — functional but not designed.
+ *   Prevents Obsidian from breaking; not intended for use.
+ */
+
+/* ────────────────────────────────────────────────────────────────────────────
+   DARK
+   ──────────────────────────────────────────────────────────────────────── */
+
+.theme-dark {
+
+  /* Base ramp — Starmind depth stack mapped to Obsidian's gray scale */
+  --color-base-00:  #0c0e14;   /* space black — deepest surface */
+  --color-base-05:  #0f1118;
+  --color-base-10:  #141823;   /* --panel */
+  --color-base-15:  #171c27;
+  --color-base-20:  #1b2030;   /* --panel-2 */
+  --color-base-25:  #1f2538;
+  --color-base-30:  #2a3144;   /* --edge */
+  --color-base-35:  #344060;
+  --color-base-40:  #415070;
+  --color-base-50:  #5a6175;   /* --faint */
+  --color-base-60:  #8b93a7;   /* --muted */
+  --color-base-70:  #a0aabb;
+  --color-base-100: #e6e9f2;   /* --ink */
+
+  /* Accent ramp — care purple (#c084fc) */
+  --color-accent-hsl:  280, 89%, 76%;
+  --color-accent:      #c084fc;
+  --color-accent-1:    #b566f8;
+  --color-accent-2:    #9b44ee;
+
+  /* ── Backgrounds ────────────────────────────────────────────────────── */
+  --background-primary:               #0c0e14;
+  --background-primary-alt:           #0f1118;
+  --background-secondary:             #141823;
+  --background-secondary-alt:         #171c27;
+  --background-modifier-hover:        rgba(42, 49, 68, 0.5);
+  --background-modifier-active-hover: rgba(42, 49, 68, 0.8);
+  --background-modifier-border:       #2a3144;
+  --background-modifier-border-hover: #344060;
+  --background-modifier-border-focus: #c084fc;
+  --background-modifier-error-rgb:    239, 68, 68;
+  --background-modifier-error:        rgba(239, 68, 68, 0.15);
+  --background-modifier-error-hover:  rgba(239, 68, 68, 0.25);
+  --background-modifier-success:      rgba(52, 211, 153, 0.15);
+  --background-modifier-message:      rgba(12, 14, 20, 0.92);
+
+  /* ── Text ───────────────────────────────────────────────────────────── */
+  --text-normal:              #e6e9f2;
+  --text-muted:               #8b93a7;
+  --text-faint:               #5a6175;
+  --text-on-accent:           #0c0e14;
+  --text-on-accent-inverted:  #e6e9f2;
+  --text-error:               #ef4444;
+  --text-warning:             #f59e0b;
+  --text-success:             #34d399;
+  --text-selection:           rgba(56, 189, 248, 0.2);
+  --text-accent:              #38bdf8;
+  --text-accent-hover:        #7dd3fc;
+  --text-highlight-bg:        rgba(192, 132, 252, 0.2);
+  --text-highlight-bg-active: rgba(192, 132, 252, 0.35);
+
+  /* ── Interactive ────────────────────────────────────────────────────── */
+  --interactive-normal:       #1b2030;
+  --interactive-hover:        #232b42;
+  --interactive-accent:       #c084fc;
+  --interactive-accent-hsl:   280, 89%, 76%;
+  --interactive-accent-hover: #b566f8;
+  --interactive-success:      #34d399;
+
+  /* ── Headings — KCD palette ramp ────────────────────────────────────── */
+  --h1-color: #c084fc;   /* care */
+  --h2-color: #38bdf8;   /* know */
+  --h3-color: #818cf8;   /* plan */
+  --h4-color: #34d399;   /* success */
+  --h5-color: #8b93a7;   /* muted */
+  --h6-color: #5a6175;   /* faint */
+
+  /* ── Code syntax ────────────────────────────────────────────────────── */
+  --code-background:  #141823;
+  --code-normal:      #e6e9f2;
+  --code-comment:     #5a6175;
+  --code-function:    #38bdf8;   /* know blue */
+  --code-important:   #fb6a44;   /* do coral */
+  --code-keyword:     #c084fc;   /* care purple */
+  --code-operator:    #8b93a7;
+  --code-property:    #7dd3fc;
+  --code-punctuation: #8b93a7;
+  --code-string:      #34d399;   /* success green */
+  --code-tag:         #c084fc;
+  --code-value:       #fb6a44;
+
+  /* ── Tags ───────────────────────────────────────────────────────────── */
+  --tag-color:              #c084fc;
+  --tag-background:         rgba(192, 132, 252, 0.1);
+  --tag-background-hover:   rgba(192, 132, 252, 0.2);
+  --tag-border-color:       rgba(192, 132, 252, 0.3);
+  --tag-border-color-hover: rgba(192, 132, 252, 0.5);
+
+  /* ── Indentation guides ─────────────────────────────────────────────── */
+  --indentation-guide-color:        rgba(42, 49, 68, 0.9);
+  --indentation-guide-color-active: rgba(56, 189, 248, 0.35);
+
+  /* ── Checkboxes ─────────────────────────────────────────────────────── */
+  --checkbox-color:              #c084fc;
+  --checkbox-color-hover:        #b566f8;
+  --checkbox-border-color:       #2a3144;
+  --checkbox-border-color-hover: #c084fc;
+  --checkbox-marker-color:       #0c0e14;
+
+  /* ── Scrollbar ──────────────────────────────────────────────────────── */
+  --scrollbar-bg:              transparent;
+  --scrollbar-thumb-bg:        #41557d;
+  --scrollbar-active-thumb-bg: #6f93d6;
+
+  /* ── File tree / nav ────────────────────────────────────────────────── */
+  --nav-item-color:             #cdd1de;
+  --nav-item-color-hover:       #e6e9f2;
+  --nav-item-color-active:      #e6e9f2;
+  --nav-item-color-highlighted: #38bdf8;
+  --nav-item-background-hover:  rgba(42, 49, 68, 0.5);
+  --nav-item-background-active: rgba(42, 49, 68, 0.85);
+  --nav-collapse-icon-color:    #5a6175;
+
+  /* ── Graph ──────────────────────────────────────────────────────────── */
+  --graph-line:              #2a3144;
+  --graph-node:              #8b93a7;
+  --graph-node-tag:          #c084fc;
+  --graph-node-attachment:   #38bdf8;
+  --graph-node-unresolved:   #5a6175;
+  --graph-node-focused:      #c084fc;
+  --graph-node-active:       #38bdf8;
+
+  /* ── Callouts — mapped to KCD semantic palette (rgb triplets) ───────── */
+  --callout-default:  129, 140, 248;   /* plan violet */
+  --callout-info:     56,  189, 248;   /* know blue */
+  --callout-tip:      52,  211, 153;   /* success green */
+  --callout-warning:  245, 158, 11;    /* analyzer amber */
+  --callout-danger:   239, 68,  68;    /* logic red */
+  --callout-success:  52,  211, 153;
+  --callout-question: 192, 132, 252;   /* care purple */
+  --callout-quote:    129, 140, 248;   /* plan violet */
+  --callout-bug:      251, 106, 68;    /* do coral */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   LIGHT — minimal stub
+   ──────────────────────────────────────────────────────────────────────── */
+
+.theme-light {
+  --color-base-00:  #f8f9fc;
+  --color-base-05:  #f2f4f8;
+  --color-base-10:  #e8eaf0;
+  --color-base-15:  #dde0ea;
+  --color-base-20:  #d2d6e4;
+  --color-base-25:  #c4c9d9;
+  --color-base-30:  #b4bad0;
+  --color-base-35:  #9ca5bf;
+  --color-base-40:  #8491ae;
+  --color-base-50:  #6a7a9a;
+  --color-base-60:  #505e7c;
+  --color-base-70:  #3a4a66;
+  --color-base-100: #1a2035;
+
+  --color-accent-hsl:  276, 60%, 48%;
+  --color-accent:      #9036d5;
+  --color-accent-1:    #7c28c0;
+  --color-accent-2:    #6820a8;
+
+  --background-primary:               #f8f9fc;
+  --background-primary-alt:           #f2f4f8;
+  --background-secondary:             #e8eaf0;
+  --background-secondary-alt:         #dde0ea;
+  --background-modifier-border:       #b4bad0;
+  --background-modifier-border-focus: #9036d5;
+
+  --text-normal:        #1a2035;
+  --text-muted:         #505e7c;
+  --text-faint:         #8491ae;
+  --text-on-accent:     #ffffff;
+  --text-accent:        #0e7ac4;
+  --text-accent-hover:  #0a62a0;
+  --text-error:         #c0392b;
+  --text-warning:       #d97706;
+  --text-success:       #059669;
+
+  --interactive-accent:       #9036d5;
+  --interactive-accent-hsl:   276, 60%, 48%;
+  --interactive-accent-hover: #7c28c0;
+
+  --scrollbar-bg:              transparent;
+  --scrollbar-thumb-bg:        #b4bad0;
+  --scrollbar-active-thumb-bg: #8491ae;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   STRUCTURAL — applies in both modes
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Active editor line — very subtle ambient glow, space blue wash */
+.cm-active.cm-line {
+  background-color: rgba(56, 189, 248, 0.04) !important;
+}
+
+/* Scrollbars — same pattern as Starmind app tokens.css */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover {
+  scrollbar-color: var(--scrollbar-thumb-bg) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  border-radius: 6px;
+}
+*:hover::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-bg);
+  background-clip: content-box;
+  box-shadow: inset 0 0 0 1px rgba(127, 211, 255, 0.18), 0 0 6px rgba(56, 189, 248, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-active-thumb-bg);
+  background-clip: content-box;
+  box-shadow: inset 0 0 0 1px rgba(127, 211, 255, 0.33), 0 0 9px rgba(56, 189, 248, 0.3);
+}
+::-webkit-scrollbar-thumb:active {
+  background: #6f93d6;
+  background-clip: content-box;
+  box-shadow: inset 0 0 0 1px #cdeeff, 0 0 14px rgba(56, 189, 248, 0.67);
+}
+
+/* Link hover — soft blue glow */
+a.internal-link,
+a.external-link {
+  transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+a.internal-link:hover,
+a.external-link:hover {
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.45);
+}
+
+/* Tag hover — care purple glow */
+.tag {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.tag:hover {
+  box-shadow: 0 0 6px rgba(192, 132, 252, 0.4);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   FILE TREE — chamfered nav items
+   House style: upper-right + lower-left cut (6px), sharp on upper-left + lower-right.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Shared: reset any default radius, smooth the color transition */
+.nav-folder-title,
+.nav-file-title {
+  border-radius: 0;
+  transition: background-color 0.12s ease;
+}
+
+/* Hover — folder */
+.nav-folder-title:hover {
+  background-color: rgba(56, 189, 248, 0.08) !important;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+/* Open folder — dim persistent blue */
+.nav-folder.is-open > .nav-folder-title {
+  background-color: rgba(56, 189, 248, 0.13) !important;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+/* Hover — file (skip when already active) */
+.nav-file-title:hover:not(.is-active) {
+  background-color: rgba(56, 189, 248, 0.08) !important;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+/* Active / open file — bright blue + left rail anchor */
+.nav-file-title.is-active {
+  background-color: rgba(56, 189, 248, 0.26) !important;
+  box-shadow: inset 2px 0 0 #38bdf8;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   CHROME — outer frame, darker + care-purple tint
+   ──────────────────────────────────────────────────────────────────────── */
+
+body,
+.app-container {
+  background-color: #08060e;
+}
+
+.workspace-ribbon {
+  background-color: #090714 !important;
+  border-right: 1px solid rgba(192, 132, 252, 0.12);
+}
+
+.workspace-tab-header-container,
+.workspace-tab-header-container-inner {
+  background-color: #0d0b1a;
+}
+
+.view-header {
+  background-color: #0d0b1a !important;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.12);
+}
+
+.status-bar {
+  background-color: #090712 !important;
+  border-top: 1px solid rgba(192, 132, 252, 0.12);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   DIVIDERS — bevel on split resize handles
+   ──────────────────────────────────────────────────────────────────────── */
+
+.workspace-split-resize-handle,
+.workspace-leaf-resize-handle {
+  background: linear-gradient(
+    to right,
+    rgba(192, 132, 252, 0.02),
+    rgba(192, 132, 252, 0.20) 50%,
+    rgba(192, 132, 252, 0.02)
+  );
+  transition: background 0.2s ease;
+}
+
+.workspace-split-resize-handle:hover,
+.workspace-leaf-resize-handle:hover {
+  background: linear-gradient(
+    to right,
+    rgba(192, 132, 252, 0.08),
+    rgba(192, 132, 252, 0.45) 50%,
+    rgba(192, 132, 252, 0.08)
+  );
+}
+
+/* Horizontal splits (e.g. between stacked panels) */
+.workspace-split-resize-handle.mod-horizontal,
+.workspace-leaf-resize-handle.mod-horizontal {
+  background: linear-gradient(
+    to bottom,
+    rgba(192, 132, 252, 0.02),
+    rgba(192, 132, 252, 0.20) 50%,
+    rgba(192, 132, 252, 0.02)
+  );
+}
+
+.workspace-split-resize-handle.mod-horizontal:hover,
+.workspace-leaf-resize-handle.mod-horizontal:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(192, 132, 252, 0.08),
+    rgba(192, 132, 252, 0.45) 50%,
+    rgba(192, 132, 252, 0.08)
+  );
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   ZONE BACKGROUNDS
+   Each surface gets a distinct base + optional SVG texture.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* ── File explorer — blue-tinted, circuit-board trace pattern ───────────── */
+/* Two L-shaped PCB traces + hollow via pads at bends + end pads at edges.
+   Know-blue on blue-tinted bg — reads as texture, not contrast. */
+.workspace-leaf-content[data-type="file-explorer"] {
+  background-color: #0e1624;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cline x1='0' y1='72' x2='128' y2='72' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Cline x1='128' y1='72' x2='128' y2='240' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Ccircle cx='128' cy='72' r='9' fill='none' stroke='%2338bdf8' stroke-width='1.5' opacity='0.055'/%3E%3Crect x='-1' y='65' width='14' height='14' rx='2' fill='%2338bdf8' opacity='0.04'/%3E%3Cline x1='192' y1='0' x2='192' y2='110' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Cline x1='192' y1='110' x2='240' y2='110' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Ccircle cx='192' cy='110' r='9' fill='none' stroke='%2338bdf8' stroke-width='1.5' opacity='0.055'/%3E%3Crect x='185' y='-1' width='14' height='14' rx='2' fill='%2338bdf8' opacity='0.04'/%3E%3Cline x1='64' y1='0' x2='64' y2='168' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Cline x1='64' y1='168' x2='240' y2='168' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Ccircle cx='64' cy='168' r='9' fill='none' stroke='%2338bdf8' stroke-width='1.5' opacity='0.055'/%3E%3Crect x='57' y='-1' width='14' height='14' rx='2' fill='%2338bdf8' opacity='0.04'/%3E%3Cline x1='0' y1='190' x2='90' y2='190' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Cline x1='90' y1='190' x2='90' y2='240' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Ccircle cx='90' cy='190' r='9' fill='none' stroke='%2338bdf8' stroke-width='1.5' opacity='0.055'/%3E%3Crect x='-1' y='183' width='14' height='14' rx='2' fill='%2338bdf8' opacity='0.04'/%3E%3Cline x1='160' y1='0' x2='160' y2='48' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Cline x1='160' y1='48' x2='240' y2='48' stroke='%2338bdf8' stroke-width='1.5' opacity='0.04'/%3E%3Ccircle cx='160' cy='48' r='9' fill='none' stroke='%2338bdf8' stroke-width='1.5' opacity='0.055'/%3E%3Crect x='153' y='-1' width='14' height='14' rx='2' fill='%2338bdf8' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 240px 240px;
+}
+
+/* ── Left sidebar catch-all — everything except file-explorer gets purple ── */
+.workspace-split.mod-left-split .workspace-leaf-content:not([data-type="file-explorer"]) {
+  background-color: #100e1b;
+}
+
+/* ── Markdown editor — darker, atmospheric nebula ───────────────────────── */
+.workspace-leaf-content[data-type="markdown"] .view-content {
+  background:
+    radial-gradient(ellipse 60% 45% at 12% 72%, rgba(56, 189, 248, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 65% at 82% 18%, rgba(192, 132, 252, 0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 75% 35% at 52% 92%, rgba(56, 189, 248, 0.10) 0%, transparent 72%),
+    #07090e;
+  background-attachment: local;
+}
+
+.workspace-leaf-content[data-type="markdown"] .cm-editor,
+.workspace-leaf-content[data-type="markdown"] .cm-scroller,
+.workspace-leaf-content[data-type="markdown"] .markdown-preview-view {
+  background: transparent;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   FILE BROWSER TYPOGRAPHY
+   ──────────────────────────────────────────────────────────────────────── */
+
+.workspace-leaf-content[data-type="file-explorer"] .nav-file-title-content,
+.workspace-leaf-content[data-type="file-explorer"] .nav-folder-title-content {
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+}
