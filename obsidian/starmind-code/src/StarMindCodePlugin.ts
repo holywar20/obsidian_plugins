@@ -10,6 +10,10 @@ import type { StarMindCodeSettings } from './settings'
 interface ViewRegistry {
 	registerExtensions(   extensions: string[], viewType: string ): void
 	unregisterExtensions( extensions: string[] ): void
+	// extension → owning viewType. Present so we can skip extensions another
+	// owner ( Obsidian core, another plugin ) already claimed — registering a
+	// duplicate throws and aborts the whole batch.
+	typeByExtension: Record<string, string>
 }
 
 export default class StarMindCodePlugin extends Plugin {
@@ -38,12 +42,26 @@ export default class StarMindCodePlugin extends Plugin {
 	applyExtensions(): void {
 		this._unregister()
 
+		const registry = this._viewRegistry()
+
+		// Claim only extensions no one else owns. `registerExtensions` throws on
+		// the first already-registered extension and aborts the whole batch, so a
+		// single conflict ( e.g. another plugin already handling `js` ) would kill
+		// the rest. Skipping the conflict lets every free extension still light up.
 		const exts = LANGUAGE_DEFS
 			.filter( ( d ) => this.settings.enabled[ d.id ] )
 			.flatMap( ( d ) => d.extensions )
+			.filter( ( ext ) => {
+				const owner = registry.typeByExtension[ ext ]
+				if ( owner && owner !== VIEW_TYPE_CODE ) {
+					console.warn( `starmind-code: extension "${ ext }" already handled by "${ owner }" — skipping` )
+					return false
+				}
+				return true
+			} )
 
 		if ( exts.length ) {
-			this._viewRegistry().registerExtensions( exts, VIEW_TYPE_CODE )
+			registry.registerExtensions( exts, VIEW_TYPE_CODE )
 			this._registered = exts
 		}
 	}

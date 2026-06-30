@@ -245,15 +245,15 @@
   scrollbar-color: var(--scrollbar-thumb-bg) transparent;
 }
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: transparent;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   background-clip: content-box;
   border-radius: 6px;
 }
@@ -387,6 +387,31 @@ body,
   border-top: 1px solid rgba(192, 132, 252, 0.12);
 }
 
+.workspace-sidebar.mod-left,
+.workspace-split.mod-left-split {
+  background-color: #100e1b;
+}
+
+.sidebar-toggle-button.mod-left {
+  background-color: #0d0b1a;
+}
+
+body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+  background-color: #0d0b1a;
+}
+
+.titlebar-button-container.mod-right {
+  background-color: #14192a;
+}
+
+.titlebar-button-container.mod-right .titlebar-button {
+  transition: background-color 0.12s ease;
+}
+
+.titlebar-button-container.mod-right .titlebar-button:hover {
+  background-color: rgba(192, 132, 252, 0.22);
+}
+
 
 /* ────────────────────────────────────────────────────────────────────────────
    DIVIDERS — bevel on split resize handles
@@ -469,6 +494,34 @@ body,
 .workspace-leaf-content[data-type="markdown"] .cm-scroller,
 .workspace-leaf-content[data-type="markdown"] .markdown-preview-view {
   background: transparent;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TAB HEADERS — chamfered purple buttons
+   House style: upper-right + lower-left cut, left-rail anchor on active.
+   ──────────────────────────────────────────────────────────────────────── */
+
+.workspace-tab-header-inner {
+  background-color: rgba(192, 132, 252, 0.09);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+  transition: background-color 0.12s ease;
+}
+
+.workspace-tab-header:hover .workspace-tab-header-inner {
+  background-color: rgba(192, 132, 252, 0.18);
+}
+
+.workspace-tab-header.is-active .workspace-tab-header-inner {
+  background-color: rgba(192, 132, 252, 0.28);
+  box-shadow: inset 2px 0 0 #c084fc;
 }
 
 
