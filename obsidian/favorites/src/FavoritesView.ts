@@ -162,6 +162,19 @@ export class FavoritesView extends ItemView {
 		const menu = new Menu();
 
 		menu.addItem( ( item ) => {
+			item.setTitle( 'Copy paths' ).setIcon( 'copy' ).onClick( async () => {
+				const folder = this._plugin.store.data.folders.find( f => f.name === folderName );
+				if ( !folder || folder.items.length === 0 ) {
+					new Notice( 'Folder is empty.' );
+					return;
+				}
+				const paths = folder.items.join( '\n' );
+				await navigator.clipboard.writeText( paths );
+				new Notice( `Copied ${ folder.items.length } path${ folder.items.length === 1 ? '' : 's' }.` );
+			} );
+		} );
+
+		menu.addItem( ( item ) => {
 			item.setTitle( 'Rename folder' ).setIcon( 'pencil' ).onClick( () => {
 				new FolderNameModal( this.app, folderName, ( newName ) => {
 					if ( newName === folderName ) return;
